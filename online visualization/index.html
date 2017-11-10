@@ -1,0 +1,184 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Interactive sandbox exhibit data</title>
+    <script type="text/javascript" src="d3/d3.js"></script>
+    <script type="text/javascript" src="d3/d3-brush.min.js"></script>
+    <link href="css/main.css" rel="stylesheet">
+  </head>
+  <body>
+    <h1>Visualization of data from exhibit Interactive sandbox in VIDA! science centre.</h1>
+    <p>Here you can find an overview of all data gathered from an exhibit. Hue and saturation of a color is defined
+      by an active mode and brightness denotes interactions with the exhibit. Black color means there is no activity at the exhibit, that means it is either off
+      (during the weekend mornings) or there are no people interacting with it.</p>
+    <p>Click on a specific date to open a new window with interactive view.</p>
+    <p>By clicking and dragging you can select an area for a full detail view. Double click on the area opens a new window with detailed view. Single click outside of the area clears the sleection. You can move and/or resize the slection.</p>
+    <p>Click on a mode to highlight only that mode in the graph or <button type="button" class="allModes">show all modes</button> </p>
+    <div class="chosenMode">
+
+    </div>
+    <div class="legend">
+      <svg class="legend">
+
+      </svg>
+    </div> <br>
+
+    <div class="overview">
+      <svg class="overviewGraph" width="2360" height="1125">
+        <g class="vLabels"
+            stroke="none" fill="#c0c0c0" font-family="Trebuchet MS" font-size="18"
+            transform="translate(10, 40)">
+          <text x="0" y="8">09:00:00</text>
+          <text x="0" y="128">10:00:00</text>
+          <text x="0" y="248">11:00:00</text>
+          <text x="0" y="368">12:00:00</text>
+          <text x="0" y="488">13:00:00</text>
+          <text x="0" y="608">14:00:00</text>
+          <text x="0" y="728">15:00:00</text>
+          <text x="0" y="848">16:00:00</text>
+          <text x="0" y="968">17:00:00</text>
+          <text x="0" y="1080">18:00:00</text>
+        </g>
+
+        <g class="hLabelsDoW"
+            stroke="none" fill="#c0c0c0" font-family="Trebuchet MS" font-size="18"
+            transform="translate(100,15)">
+          <text x="5" y="0">Wed</text>
+          <text x="60" y="0">Thu</text>
+          <text x="115" y="0">Fri</text>
+          <text x="170" y="0">Sat</text>
+          <text x="225" y="0">Sun</text>
+          <text x="285" y="0">Mon</text>
+          <text x="340" y="0">Tue</text>
+          <text x="395" y="0">Wed</text>
+          <text x="450" y="0">Thu</text>
+          <text x="505" y="0">Fri</text>
+          <text x="560" y="0">Sat</text>
+          <text x="615" y="0">Sun</text>
+          <text x="670" y="0">Mon</text>
+          <text x="725" y="0">Tue</text>
+          <text x="775" y="0">Wed</text>
+          <text x="830" y="0">Thu</text>
+          <text x="885" y="0">Fri</text>
+          <text x="940" y="0">Sat</text>
+          <text x="995" y="0">Sun</text>
+          <text x="1050" y="0">Mon</text>
+          <text x="1105" y="0">Tue</text>
+          <text x="1160" y="0">Wed</text>
+          <text x="1215" y="0">Thu</text>
+          <text x="1270" y="0">Fri</text>
+          <text x="1325" y="0">Sat</text>
+          <text x="1380" y="0">Sun</text>
+          <text x="1435" y="0">Mon</text>
+          <text x="1490" y="0">Tue</text>
+          <text x="1545" y="0">Wed</text>
+          <text x="1600" y="0">Thu</text>
+          <text x="1655" y="0">Fri</text>
+          <text x="1710" y="0">Sat</text>
+          <text x="1765" y="0">Sun</text>
+          <text x="1820" y="0">Mon</text>
+          <text x="1875" y="0">Tue</text>
+          <text x="1930" y="0">Wed</text>
+          <text x="1985" y="0">Thu</text>
+          <text x="2040" y="0">Fri</text>
+          <text x="2095" y="0">Sat</text>
+          <text x="2150" y="0">Sun</text>
+          <text x="2205" y="0">Mon</text>
+          </g>
+
+          <g class="hLabelsDate"
+              stroke="none" fill="#c0c0c0" font-family="Trebuchet MS" font-size="18"
+              transform="translate(100,35)">
+          <text x="5" y="0">26.4.</text>
+          <text x="60" y="0">27.4.</text>
+          <text x="115" y="0">28.4.</text>
+          <text x="170" y="0">29.4.</text>
+          <text x="225" y="0">30.4.</text>
+          <text x="285" y="0">1.5.</text>
+          <text x="340" y="0">2.5.</text>
+          <text x="395" y="0">3.5.</text>
+          <text x="450" y="0">4.5.</text>
+          <text x="505" y="0">5.5.</text>
+          <text x="560" y="0">6.5.</text>
+          <text x="615" y="0">7.5.</text>
+          <text x="670" y="0">8.5.</text>
+          <text x="725" y="0">9.5.</text>
+          <text x="775" y="0">10.5.</text>
+          <text x="830" y="0">11.5.</text>
+          <text x="885" y="0">12.5.</text>
+          <text x="940" y="0">13.5.</text>
+          <text x="995" y="0">14.5.</text>
+          <text x="1050" y="0">15.5.</text>
+          <text x="1105" y="0">16.5.</text>
+          <text x="1160" y="0">17.5.</text>
+          <text x="1215" y="0">18.5.</text>
+          <text x="1270" y="0">19.5.</text>
+          <text x="1325" y="0">20.5.</text>
+          <text x="1380" y="0">21.5.</text>
+          <text x="1435" y="0">22.5.</text>
+          <text x="1490" y="0">23.5.</text>
+          <text x="1545" y="0">24.5.</text>
+          <text x="1600" y="0">25.5.</text>
+          <text x="1655" y="0">26.5.</text>
+          <text x="1710" y="0">27.5.</text>
+          <text x="1765" y="0">28.5.</text>
+          <text x="1820" y="0">29.5.</text>
+          <text x="1875" y="0">30.5.</text>
+          <text x="1930" y="0">31.5.</text>
+          <text x="1985" y="0">1.6.</text>
+          <text x="2040" y="0">2.6.</text>
+          <text x="2095" y="0">3.6.</text>
+          <text x="2150" y="0">4.6.</text>
+          <text x="2205" y="0">5.6.</text>
+        </g>
+
+        <g class="hLabels"
+            stroke="none" fill="black" opacity="0"
+            transform="translate(100,0)">
+            <rect x="5" y="0" width="40" height="37" class="daySelect" id="c2017-04-26"></rect>
+            <rect x="60" y="0" width="40" height="37" class="daySelect" id="c2017-04-27"></rect>
+            <rect x="115" y="0" width="40" height="37" class="daySelect" id="c2017-04-28"></rect>
+            <rect x="170" y="0" width="40" height="37" class="daySelect" id="c2017-04-29"></rect>
+            <rect x="225" y="0" width="40" height="37" class="daySelect" id="c2017-04-30"></rect>
+            <rect x="280" y="0" width="40" height="37" class="daySelect" id="c2017-05-01"></rect>
+            <rect x="335" y="0" width="40" height="37" class="daySelect" id="c2017-05-02"></rect>
+            <rect x="390" y="0" width="40" height="37" class="daySelect" id="c2017-05-03"></rect>
+            <rect x="445" y="0" width="40" height="37" class="daySelect" id="c2017-05-04"></rect>
+            <rect x="500" y="0" width="40" height="37" class="daySelect" id="c2017-05-05"></rect>
+            <rect x="555" y="0" width="40" height="37" class="daySelect" id="c2017-05-06"></rect>
+            <rect x="610" y="0" width="40" height="37" class="daySelect" id="c2017-05-07"></rect>
+            <rect x="665" y="0" width="40" height="37" class="daySelect" id="c2017-05-08"></rect>
+            <rect x="720" y="0" width="40" height="37" class="daySelect" id="c2017-05-09"></rect>
+            <rect x="775" y="0" width="40" height="37" class="daySelect" id="c2017-05-10"></rect>
+            <rect x="830" y="0" width="40" height="37" class="daySelect" id="c2017-05-11"></rect>
+            <rect x="885" y="0" width="40" height="37" class="daySelect" id="c2017-05-12"></rect>
+            <rect x="940" y="0" width="40" height="37" class="daySelect" id="c2017-05-13"></rect>
+            <rect x="995" y="0" width="40" height="37" class="daySelect" id="c2017-05-14"></rect>
+            <rect x="1050" y="0" width="40" height="37" class="daySelect" id="c2017-05-15"></rect>
+            <rect x="1105" y="0" width="40" height="37" class="daySelect" id="c2017-05-16"></rect>
+            <rect x="1160" y="0" width="40" height="37" class="daySelect" id="c2017-05-17"></rect>
+            <rect x="1215" y="0" width="40" height="37" class="daySelect" id="c2017-05-18"></rect>
+            <rect x="1270" y="0" width="40" height="37" class="daySelect" id="c2017-05-19"></rect>
+            <rect x="1325" y="0" width="40" height="37" class="daySelect" id="c2017-05-20"></rect>
+            <rect x="1380" y="0" width="40" height="37" class="daySelect" id="c2017-05-21"></rect>
+            <rect x="1435" y="0" width="40" height="37" class="daySelect" id="c2017-05-22"></rect>
+            <rect x="1490" y="0" width="40" height="37" class="daySelect" id="c2017-05-23"></rect>
+            <rect x="1545" y="0" width="40" height="37" class="daySelect" id="c2017-05-24"></rect>
+            <rect x="1600" y="0" width="40" height="37" class="daySelect" id="c2017-05-25"></rect>
+            <rect x="1655" y="0" width="40" height="37" class="daySelect" id="c2017-05-26"></rect>
+            <rect x="1710" y="0" width="40" height="37" class="daySelect" id="c2017-05-27"></rect>
+            <rect x="1765" y="0" width="40" height="37" class="daySelect" id="c2017-05-28"></rect>
+            <rect x="1820" y="0" width="40" height="37" class="daySelect" id="c2017-05-29"></rect>
+            <rect x="1875" y="0" width="40" height="37" class="daySelect" id="c2017-05-30"></rect>
+            <rect x="1930" y="0" width="40" height="37" class="daySelect" id="c2017-05-31"></rect>
+            <rect x="1985" y="0" width="40" height="37" class="daySelect" id="c2017-06-01"></rect>
+            <rect x="2040" y="0" width="40" height="37" class="daySelect" id="c2017-06-02"></rect>
+            <rect x="2095" y="0" width="40" height="37" class="daySelect" id="c2017-06-03"></rect>
+            <rect x="2150" y="0" width="40" height="37" class="daySelect" id="c2017-06-04"></rect>
+            <rect x="2205" y="0" width="40" height="37" class="daySelect" id="c2017-06-05"></rect>
+        </g>
+      </svg>
+    </div>
+  </body>
+  <script type="text/javascript" src="myJScode.js"></script>
+</html>
