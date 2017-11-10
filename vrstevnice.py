@@ -9,7 +9,8 @@ minute = td(1, 'm')
 video_end = pd.Timestamp('26-04-2017T16:00:00')
 end = pd.Timestamp('26-04-2017T18:00:00')
 
-modes = pd.read_csv('mode_change_26-4.txt', header=None, names=['playmode', 'timestamp'], parse_dates=[1])
+modes = pd.read_csv('original data/26.4/mode_change_26-4.txt',
+                    header=None, names=['playmode', 'timestamp'], parse_dates=[1])
 
 modes['previous_timestamp'] = modes.timestamp.shift()
 modes['previous_length'] = modes.timestamp - modes.previous_timestamp
@@ -20,7 +21,8 @@ modes.loc[modes.previous_length < minute, 'event'] = 'click'
 
 # print(modes[modes.to_video_end > td(0)].loc[:, ['playmode', 'previous_length', 'length']])
 
-points = pd.read_csv('max_values_26-4.txt', header=None, names=['overpoints', 'timestamp'], parse_dates=[1])
+points = pd.read_csv('original data/26.4/max_values_26-4.txt',
+                     header=None, names=['overpoints', 'timestamp'], parse_dates=[1])
 points['previous_timestamp'] = points.timestamp.shift()
 points['to_end'] = end - points.timestamp
 points['difference'] = (points.timestamp - points.previous_timestamp).fillna(0)
