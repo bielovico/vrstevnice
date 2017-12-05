@@ -1,0 +1,47 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Interactive sandbox exhibit data</title>
+    <script type="text/javascript" src="d3/d3.js"></script>
+    <script type="text/javascript" src="d3/d3-brush.min.js"></script>
+    <link href="css/main.css" rel="stylesheet">
+  </head>
+  <body>
+    <h1>Visualization of data from exhibit Interactive sandbox in VIDA! science centre.</h1>
+    <p>Here you can find an overview of all data gathered from an exhibit. Hue and saturation of a color is defined
+      by an active mode and brightness denotes interactions with the exhibit. Black color means there is no activity at the exhibit, that means it is either off
+      (during the weekend mornings) or there are no people interacting with it.</p>
+    <p>Click on a specific date to open a new window with interactive view.</p>
+    <p>By clicking and dragging you can select an area for a full detail view. Double click on the area opens a new window with detailed view. Single click outside of the area clears the sleection. You can move and/or resize the slection.</p>
+    <p>Click on a mode to highlight only that mode in the graph or <button type="button" class="allModes">show all modes</button> </p>
+    <div class="chosenMode">
+
+    </div>
+    <div class="legend">
+      <svg class="legend">
+
+      </svg>
+    </div> <br>
+
+    <div class="overview">
+      <svg class="overviewGraph" width="2360" height="1125">
+        <g class="vLabels"
+            stroke="none" fill="#c0c0c0" font-family="Trebuchet MS" font-size="18"
+            transform="translate(10, 40)">
+          <text x="0" y="8">09:00:00</text>
+          <text x="0" y="128">10:00:00</text>
+          <text x="0" y="248">11:00:00</text>
+          <text x="0" y="368">12:00:00</text>
+          <text x="0" y="488">13:00:00</text>
+          <text x="0" y="608">14:00:00</text>
+          <text x="0" y="728">15:00:00</text>
+          <text x="0" y="848">16:00:00</text>
+          <text x="0" y="968">17:00:00</text>
+          <text x="0" y="1080">18:00:00</text>
+        </g>
+      </svg>
+    </div>
+
+  </body>
+  <script type="text/javascript" src="myJScode.js"></script>
+</html>

@@ -1,0 +1,33 @@
+body{
+	background:#3e4147;
+	margin-top:50px;
+	font: 15px "Trebuchet MS";
+	color:#c0c0c0;
+}
+
+.dayGraph{
+	float: left;
+}
+
+.lengthSelector{
+	width: 300px;
+	float: left;
+	position: fixed;
+	left: 800;
+	top: 450;
+}
+
+.legend{
+	width: 300px;
+	float: left;
+	position: fixed;
+	left: 800;
+}
+
+.xlabel{
+	margin-left: 280px
+}
+
+h2 {
+	padding: 20px
+}
