@@ -2,6 +2,10 @@ var chosenDay = "";
 var overview;
 var chosenMode = 0;
 
+var inFormat = d3.timeParse("%Y-%m-%d");
+var dowFormat = d3.timeFormat("%a");
+var shortFormat = d3.timeFormat("%-d.%-m.")
+
 var modeColors = { 0:"black", 1:"#ff545f", 2:"#72ff3a", 3:"#fff53d", 4:"#653fff",
                     5:"#3dffff", 6:"#c575ff", 7:"#da627d", 8:"#ff8f49" };
 var modes = [
@@ -21,6 +25,8 @@ var modeColorsHSL = { 0:d3.hsl("black"), 1:d3.hsl("#ff545f"), 2:d3.hsl("#72ff3a"
                       3:d3.hsl("#fff53d"), 4:d3.hsl("#653fff"),
                       5:d3.hsl("#3dffff"), 6:d3.hsl("#c575ff"),
                       7:d3.hsl("#da627d"), 8:d3.hsl("#ff8f49") };
+
+var days = ["2017-04-26", "2017-04-29", "2017-05-06", "2017-05-07"];
 
 d3.csv("overview.csv", function(d){
   return {
@@ -47,7 +53,7 @@ var gw = 756;
 // Show overview
 
 var click = false;
-var d = overview[0].date;
+var d = days[0];
 var oGraph = d3.select("svg.overviewGraph");
 var xtranslation = 100;
 var ytranslation = 40;
@@ -57,47 +63,79 @@ var columnHeight = 1081;
 var collumnOffset = 5;
 var xp = 0;
 var yp = 0;
-group = oGraph.append("g")
-  .attr("class", "strip").attr("id", "d" + d)
-  .attr("transform", "translate(" + xtranslation + "," + ytranslation + ")");
-b_group = oGraph.append("g")
-    .attr("class", "brush").attr("id", "b" + d)
-    .attr("transform", "translate(" + xtranslation + "," + ytranslation + ")")
-    .call(d3.brushY().on("end", brushended).on("start", checkDblclick).extent(function () {
-      return [[0, 0], [columnWidth, columnHeight]]
-    }));
+var op = 0;
 
-for (var i = 0; i < overview.length; i++) {
-  if (overview[i].date != d) {
-    column++;
-    d = overview[i].date;
-    group = oGraph.append("g")
-      .attr("class", "strip")
-      .attr("id", "d" + d)
-      .attr("transform", "translate(" + (xtranslation + (column*columnWidth) + ((column)*collumnOffset))
-                                + "," + (ytranslation) + ")");
-    b_group = oGraph.append("g")
-        .attr("class", "brush").attr("id", "b" + d)
-        .attr("transform", "translate(" + (xtranslation + (column*columnWidth) + ((column)*collumnOffset))
-                                + "," + ytranslation + ")")
-        .call(d3.brushY().on("end", brushended).on("start", checkDblclick).extent(function () {
-          return [[0, 0], [columnWidth, columnHeight]]
-        }));
-    yp = 0;
+for (var i = 0; i < days.length; i++) {
+  d = days[i];
+  yp = 0;
+
+  // prepare a group for labels
+  var labels = oGraph.append("g")
+    .attr("class", "hLabelsDate2")
+    .attr("stroke", "none").attr("fill", "#c0c0c0")
+    .attr("font-family", "Trebuchet MS").attr("font-size", "18")
+    .attr("transform", "translate("
+      + (xtranslation + (column*columnWidth) + (column*collumnOffset))
+      + ", 0)");
+
+  // write day of Week label
+  labels.append("text")
+    .attr("x", "5").attr("y", "15")
+    .text(dowFormat(inFormat(d)));
+
+  // write date label
+  labels.append("text")
+    .attr("x", "5").attr("y", "35")
+    .text(shortFormat(inFormat(d)));
+
+  // create a clickable rectangle
+  labels.append("rect")
+    .attr("x", "5").attr("y", "0")
+    .attr("width", columnWidth-10).attr("height", "37")
+    .attr("class", "daySelect").attr("id", "c"+d)
+    .attr("opacity", "0");
+
+  // prepare group for strip
+  var group = oGraph.append("g")
+    .attr("class", "strip").attr("id", "d" + d)
+    .attr("transform", "translate("
+        + (xtranslation + (column*columnWidth) + (column*collumnOffset)) + ","
+        + ytranslation + ")");
+
+  // prepare group for brush
+  oGraph.append("g")
+      .attr("class", "brush").attr("id", "b" + d)
+      .attr("transform", "translate(" +
+        (xtranslation + (column*columnWidth) + (column*collumnOffset)) + "," +
+        ytranslation + ")")
+      .call(d3.brushY().on("end", brushended).on("start", checkDblclick).extent(function () {
+        return [[0, 0], [columnWidth, columnHeight]]
+      }));
+
+  // find correct data
+  while (overview[op].date != d) {
+      op++;
   }
-  var c = modeColorsHSL[overview[i].mode]
-  c.l = +overview[i].saturation
-  group.append("line")
-    .attr("x1", xp)
-    .attr("y1", yp)
-    .attr("x2", xp+columnWidth)
-    .attr("y2", yp)
-    .attr("class", "gData")
-    .attr("stroke-width", 1)
-    .attr("stroke", c.toString())
-    .attr("color", c.toString())
-    .attr("mode", overview[i].mode);
-  yp++;
+
+  //write lines
+  while (overview[op].date == d) {
+    var c = modeColorsHSL[overview[op].mode];
+    c.l = +overview[op].saturation;
+    group.append("line")
+      .attr("x1", xp)
+      .attr("y1", yp)
+      .attr("x2", xp+columnWidth)
+      .attr("y2", yp)
+      .attr("class", "gData")
+      .attr("stroke-width", 1)
+      .attr("stroke", c.toString())
+      .attr("color", c.toString())
+      .attr("mode", overview[op].mode);
+    yp++;
+    op++;
+  }
+
+  column++;
 }
 
 function brushended() {
