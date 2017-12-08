@@ -2,8 +2,10 @@
   <head>
     <meta charset="utf-8">
     <title>Interactive sandbox exhibit data</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript" src="d3/d3.js"></script>
     <script type="text/javascript" src="d3/d3-brush.min.js"></script>
+    <script type="text/javascript" src="myJScode.js"></script>
     <link href="css/main.css" rel="stylesheet">
   </head>
   <body>
@@ -20,7 +22,14 @@
     <div class="legend">
       <svg class="legend">
 
-      </svg>
+      </svg>	
+       <div>
+       <label for="days">Enter a begin and an end date for showing:</label>
+    
+        <input class="days" id="daysFrom" type="date" name="Interval begin" min="2017-26-04" max="2017-04-06" value="2017-05-04">
+        <input class="days" id="daysTo" type="date" name="Interval end" min="2017-26-04" max="2017-04-06" value="2017-05-08">
+        <button id="selectedDays" type="button">Reload</button>
+      </div>
     </div> <br>
 
     <div class="overview">
@@ -43,5 +52,5 @@
     </div>
 
   </body>
-  <script type="text/javascript" src="myJScode.js"></script>
+ 
 </html>

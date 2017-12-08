@@ -26,7 +26,56 @@ var modeColorsHSL = { 0:d3.hsl("black"), 1:d3.hsl("#ff545f"), 2:d3.hsl("#72ff3a"
                       5:d3.hsl("#3dffff"), 6:d3.hsl("#c575ff"),
                       7:d3.hsl("#da627d"), 8:d3.hsl("#ff8f49") };
 
-var days = ["2017-04-26", "2017-04-29", "2017-05-06", "2017-05-07"];
+var days = [];
+
+$(document).ready(function(){
+	$('#selectedDays').click(function(){
+		console.log("bezim");
+		var lowerBound = $('#daysFrom').val();
+		var upperBound = $('#daysTo').val();
+		var currentDay = lowerBound;
+		console.log(upperBound);
+		while(currentDay != upperBound){
+			days.push(currentDay);
+			currentDay = addDay(currentDay);
+			
+		}
+		days.push(currentDay);
+		console.log(days);
+		visualize();
+	});
+});
+
+function addDay(currentDay) {
+    var y = currentDay.substr(0,4),
+        m = currentDay.substr(5,2),
+        d = currentDay.substr(8,2);
+
+   
+    if(m.valueOf()=='04' && d.valueOf()=='30'){
+    	m='05';
+    	d='01';
+    	
+    }else if(m.valueOf()=='05' && d.valueOf()=='31'){
+    	m='06';
+    	d='01';
+  
+    }else{
+    	d = parseInt(d)+1;
+    }
+    if(m.substr(0,1)!='0'){ m = checkLeadingZero(m);}
+    d = checkLeadingZero(d);
+    
+   var nextDay = y+'-'+m+'-'+d;
+   console.log(nextDay);
+    
+   return nextDay;
+}
+
+function checkLeadingZero(n) {
+    return (n < 10) ? ("0" + n) : n;
+}
+
 
 d3.csv("overview.csv", function(d){
   return {
