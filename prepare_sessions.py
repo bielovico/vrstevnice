@@ -2,8 +2,8 @@ import pandas as pd
 from numpy import timedelta64 as td
 import numpy as np
 
-first_day = pd.Timestamp('26-04-2017')
-last_day = pd.Timestamp('05-06-2017')
+first_day = pd.Timestamp('2017-04-26')
+last_day = pd.Timestamp('2017-06-05')
 days = pd.date_range(first_day, last_day)
 number_of_days = len(days)
 

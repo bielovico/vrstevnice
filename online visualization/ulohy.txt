@@ -14,3 +14,5 @@ Uloha 3:
     najdlhsia interakcia aspon 30 sekund
     pocet zmien modov na casovy usek 1 zmena za 20 sekund
   Oliver: dopocitat v Python dlzka najdlhsieho modu, pocet zmien na jednotku
+
+Uloha 4: po kliknuti na session id zobrazit rychlost zmien a dlzku najdlhsej interakcie

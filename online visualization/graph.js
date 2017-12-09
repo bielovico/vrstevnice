@@ -1,5 +1,7 @@
 var chosenDay = window.location.search.split('=')[1]
 var chosenLength = 60;
+var chosenSpeed = 0.1;
+var chosenLongest = 10;
 
 d3.select("h2").text(chosenDay);
 d3.select("title").text("Interactive graph visualization of " + chosenDay)
@@ -32,13 +34,15 @@ var modeColorsHSL = { 0:d3.hsl("black"), 1:d3.hsl("#ff545f"), 2:d3.hsl("#72ff3a"
 var inFormat = d3.timeParse("%Y-%m-%d");
 var outFormat = d3.timeFormat("%-d-%-m");
 
-d3.csv("sessions.csv", function(d) {
+d3.csv("sessions_continue.csv", function(d) {
   return {
     date : d.date,
     sStart : d.session_start,
     sEnd : d.session_end,
     sLength : +d.session_length,
-    sID : +d.id
+    sID : +d.id,
+    sLongestLength : +d.longest_length,
+    sSpeed : +d.mode_changes_per_second
   };
 
 }, function(d){
@@ -65,6 +69,16 @@ function updateLength(length) {
   d3.select("#length").text(length)
 }
 
+function updateSpeed(speed) {
+  chosenSpeed = speed/10000;
+  d3.select("#speed").text(speed/1000)
+}
+
+function updateLongest(length) {
+  chosenLongest = length;
+  d3.select("#longest").text(length)
+}
+
 function graphWindowFunction() {
 
   showLegend();
@@ -85,6 +99,14 @@ function graphWindowFunction() {
     d3.select("#reduced").attr("disabled", "disabled");
     d3.select("#full").attr("disabled", null);
     d3.select("p.loading").remove;
+  });
+
+  d3.select("#speedSelect").on("click", function () {
+    showReduced(daydata, graph);
+  });
+
+  d3.select("#longestSelect").on("click", function () {
+    showReduced(daydata, graph);
   });
 
   d3.select("#full").on('click', function () {
@@ -248,7 +270,9 @@ function graphWindowFunction() {
     for (var i = 0; i < sessions.length; i++) {
       // sem pridat podmienku, ktore session nebrat v uvahu
       // 9 podmienok na mode0 - mode8 ked session[i].modex < pozadovana.modex
-      if (sessions[i].date != chosenDay | sessions[i].sLength < chosenLength) { // sessions[i].mode0 < 1
+      if (sessions[i].date != chosenDay | sessions[i].sLength < chosenLength
+            | sessions[i].sSpeed > chosenSpeed
+            | sessions[i].sLongestLength < chosenLongest) { // sessions[i].mode0 < 1
         continue;
       }
       sIDs.push(sessions[i].sID);
