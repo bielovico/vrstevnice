@@ -5,6 +5,13 @@ Uloha 1: "filtrovanie overview podla dni"
             vypisat iba dni zo zoznamu
 
 Uloha 2: "filtrovanie sessions v detaile podla modu"
-  Lukas: klikatelne oblasti
+  Lukas: klikatelne oblasti - vyber minimalneho poctu sekund v jednom mode
           pridanie podmienok zobrazovania sessions
   Oliver: Python kod, ktory prida zoznam modov k session
+
+Uloiha 3:
+  definicia rozumnej interakcie:
+    najdlhsia interakcia aspon 30 sekund
+    pocet zmien modov na casovy usek 1 zmena za 20 sekund
+  Oliver: dopocitat v Python dlzka najdlhsieho modu, pocet zmien na jednotku
+  

@@ -26,57 +26,6 @@ var modeColorsHSL = { 0:d3.hsl("black"), 1:d3.hsl("#ff545f"), 2:d3.hsl("#72ff3a"
                       5:d3.hsl("#3dffff"), 6:d3.hsl("#c575ff"),
                       7:d3.hsl("#da627d"), 8:d3.hsl("#ff8f49") };
 
-var days = [];
-
-$(document).ready(function(){
-	$('#selectedDays').click(function(){
-		console.log("bezim");
-		var lowerBound = $('#daysFrom').val();
-		var upperBound = $('#daysTo').val();
-		var currentDay = lowerBound;
-		console.log(upperBound);
-		while(currentDay != upperBound){
-			days.push(currentDay);
-			currentDay = addDay(currentDay);
-			
-		}
-		days.push(currentDay);
-		console.log(days);
-		visualize();
-	});
-});
-
-function addDay(currentDay) {
-    var y = currentDay.substr(0,4),
-        m = currentDay.substr(5,2),
-        d = currentDay.substr(8,2);
-
-   
-    if(m.valueOf()=='04' && d.valueOf()=='30'){
-    	m='05';
-    	d='01';
-    	
-    }else if(m.valueOf()=='05' && d.valueOf()=='31'){
-    	m='06';
-    	d='01';
-  
-    }else{
-    	d = parseInt(d)+1;
-    }
-    if(m.substr(0,1)!='0'){ m = checkLeadingZero(m);}
-    d = checkLeadingZero(d);
-    
-   var nextDay = y+'-'+m+'-'+d;
-   console.log(nextDay);
-    
-   return nextDay;
-}
-
-function checkLeadingZero(n) {
-    return (n < 10) ? ("0" + n) : n;
-}
-
-
 d3.csv("overview.csv", function(d){
   return {
     date : d.date,
@@ -92,9 +41,54 @@ d3.csv("overview.csv", function(d){
 // visualization
 
 function visualize() {
+var days = ['2017-05-04','2017-05-05','2017-05-06','2017-05-07','2017-05-08'];
+
+d3.select('#selectedDays').on('click', function(){
+  days = [];
+	var lowerBound = d3.select('#daysFrom').property("value");
+	var upperBound = d3.select('#daysTo').property("value");
+	var currentDay = lowerBound;
+	while(currentDay != upperBound){
+		days.push(currentDay);
+		currentDay = addDay(currentDay);
+
+	}
+	days.push(currentDay);
+	console.log(days);
+	drawGraph();
+});
+
+function addDay(currentDay) {
+    var y = currentDay.substr(0,4),
+        m = currentDay.substr(5,2),
+        d = currentDay.substr(8,2);
+
+
+    if(m.valueOf()=='04' && d.valueOf()=='30'){
+    	m='05';
+    	d='01';
+
+    }else if(m.valueOf()=='05' && d.valueOf()=='31'){
+    	m='06';
+    	d='01';
+
+    }else{
+    	d = parseInt(d)+1;
+    }
+    if(m.substr(0,1)!='0'){ m = checkLeadingZero(m);}
+    d = checkLeadingZero(d);
+
+   var nextDay = y+'-'+m+'-'+d;
+
+   return nextDay;
+}
+
+function checkLeadingZero(n) {
+    return (n < 10) ? ("0" + n) : n;
+}
 
 var legend = d3.select("svg.legend").attr("width", 1260).attr("height", 100);
-showLegend()
+showLegend();
 
 var gh = 32400;
 var gw = 756;
@@ -106,99 +100,109 @@ var d = days[0];
 var oGraph = d3.select("svg.overviewGraph");
 var xtranslation = 100;
 var ytranslation = 40;
-var column = 0;
 var columnWidth = 50;
 var columnHeight = 1081;
 var collumnOffset = 5;
-var xp = 0;
-var yp = 0;
-var op = 0;
 
-for (var i = 0; i < days.length; i++) {
-  d = days[i];
-  yp = 0;
 
-  // prepare a group for labels
-  var labels = oGraph.append("g")
-    .attr("class", "hLabelsDate2")
-    .attr("stroke", "none").attr("fill", "#c0c0c0")
-    .attr("font-family", "Trebuchet MS").attr("font-size", "18")
-    .attr("transform", "translate("
-      + (xtranslation + (column*columnWidth) + (column*collumnOffset))
-      + ", 0)");
+drawGraph();
 
-  // write day of Week label
-  labels.append("text")
-    .attr("x", "5").attr("y", "15")
-    .text(dowFormat(inFormat(d)));
 
-  // write date label
-  labels.append("text")
-    .attr("x", "5").attr("y", "35")
-    .text(shortFormat(inFormat(d)));
+function drawGraph() {
+  var column = 0;
+  var xp = 0;
+  var yp = 0;
+  var op = 0;
+  oGraph.selectAll("g.hLabel").remove();
+  oGraph.selectAll("g.strip").remove();
+  oGraph.selectAll("g.brush").remove();
+  console.log("removed");
 
-  // create a clickable rectangle
-  labels.append("rect")
-    .attr("x", "5").attr("y", "0")
-    .attr("width", columnWidth-10).attr("height", "37")
-    .attr("class", "daySelect").attr("id", "c"+d)
-    .attr("opacity", "0");
+  for (var i = 0; i < days.length; i++) {
+    d = days[i];
+    yp = 0;
 
-  // prepare group for strip
-  var group = oGraph.append("g")
-    .attr("class", "strip").attr("id", "d" + d)
-    .attr("transform", "translate("
-        + (xtranslation + (column*columnWidth) + (column*collumnOffset)) + ","
-        + ytranslation + ")");
+    // prepare a group for labels
+    var labels = oGraph.append("g")
+      .attr("class", "hLabel")
+      .attr("stroke", "none").attr("fill", "#c0c0c0")
+      .attr("font-family", "Trebuchet MS").attr("font-size", "18")
+      .attr("transform", "translate("
+        + (xtranslation + (column*columnWidth) + (column*collumnOffset))
+        + ", 0)");
 
-  // prepare group for brush
-  oGraph.append("g")
-      .attr("class", "brush").attr("id", "b" + d)
-      .attr("transform", "translate(" +
-        (xtranslation + (column*columnWidth) + (column*collumnOffset)) + "," +
-        ytranslation + ")")
-      .call(d3.brushY().on("end", brushended).on("start", checkDblclick).extent(function () {
-        return [[0, 0], [columnWidth, columnHeight]]
-      }));
+    // write day of Week label
+    labels.append("text")
+      .attr("x", "5").attr("y", "15")
+      .text(dowFormat(inFormat(d)));
 
-  // find correct data
-  while (overview[op].date != d) {
+    // write date label
+    labels.append("text")
+      .attr("x", "5").attr("y", "35")
+      .text(shortFormat(inFormat(d)));
+
+    // create a clickable rectangle
+    labels.append("rect")
+      .attr("x", "5").attr("y", "0")
+      .attr("width", columnWidth-10).attr("height", "37")
+      .attr("class", "daySelect").attr("id", "c"+d)
+      .attr("opacity", "0");
+
+    // prepare group for strip
+    var group = oGraph.append("g")
+      .attr("class", "strip").attr("id", "d" + d)
+      .attr("transform", "translate("
+          + (xtranslation + (column*columnWidth) + (column*collumnOffset)) + ","
+          + ytranslation + ")");
+
+    // prepare group for brush
+    oGraph.append("g")
+        .attr("class", "brush").attr("id", "b" + d)
+        .attr("transform", "translate(" +
+          (xtranslation + (column*columnWidth) + (column*collumnOffset)) + "," +
+          ytranslation + ")")
+        .call(d3.brushY().on("end", brushended).on("start", checkDblclick).extent(function () {
+          return [[0, 0], [columnWidth, columnHeight]]
+        }));
+
+    // find correct data
+    console.log(op);
+    while (overview[op].date != d) {
+        op++;
+    }
+
+    //write lines
+    while (overview[op].date == d) {
+      var c = modeColorsHSL[overview[op].mode];
+      c.l = +overview[op].saturation;
+      group.append("line")
+        .attr("x1", xp)
+        .attr("y1", yp)
+        .attr("x2", xp+columnWidth)
+        .attr("y2", yp)
+        .attr("class", "gData")
+        .attr("stroke-width", 1)
+        .attr("stroke", c.toString())
+        .attr("color", c.toString())
+        .attr("mode", overview[op].mode);
+      yp++;
       op++;
-  }
+    }
 
-  //write lines
-  while (overview[op].date == d) {
-    var c = modeColorsHSL[overview[op].mode];
-    c.l = +overview[op].saturation;
-    group.append("line")
-      .attr("x1", xp)
-      .attr("y1", yp)
-      .attr("x2", xp+columnWidth)
-      .attr("y2", yp)
-      .attr("class", "gData")
-      .attr("stroke-width", 1)
-      .attr("stroke", c.toString())
-      .attr("color", c.toString())
-      .attr("mode", overview[op].mode);
-    yp++;
-    op++;
+    column++;
   }
+  lines = oGraph.selectAll("line.gData");
+  d3.selectAll("rect.daySelect").on('click', function() {
+    chosenDay = d3.select(this).attr('id').slice(1);
+    window.open('graph.html?day=' + chosenDay);
+  });
 
-  column++;
 }
 
 function brushended() {
     if (!d3.event.selection) return; // Ignore empty selections.
     var chosenDay = d3.select(this)['_groups'][0][0].getAttribute('id').slice(1);
 }
-
-lines = oGraph.selectAll("line.gData");
-
-d3.selectAll("rect.daySelect").on('click', function() {
-  chosenDay = d3.select(this).attr('id').slice(1);
-  window.open('graph.html?day=' + chosenDay);
-});
-
 
 function checkDblclick() {
   if (click) {

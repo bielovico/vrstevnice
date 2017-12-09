@@ -243,10 +243,12 @@ function graphWindowFunction() {
 
   function prepareGraphData(daydata) {
     var graphData = [];
-    var sIDs = []
+    var sIDs = [];
     var totalLength = 0;
     for (var i = 0; i < sessions.length; i++) {
-      if (sessions[i].date != chosenDay | sessions[i].sLength < chosenLength) {
+      // sem pridat podmienku, ktore session nebrat v uvahu
+      // 9 podmienok na mode0 - mode8 ked session[i].modex < pozadovana.modex
+      if (sessions[i].date != chosenDay | sessions[i].sLength < chosenLength) { // sessions[i].mode0 < 1
         continue;
       }
       sIDs.push(sessions[i].sID);
