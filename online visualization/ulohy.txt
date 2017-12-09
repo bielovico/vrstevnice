@@ -9,9 +9,8 @@ Uloha 2: "filtrovanie sessions v detaile podla modu"
           pridanie podmienok zobrazovania sessions
   Oliver: Python kod, ktory prida zoznam modov k session
 
-Uloiha 3:
+Uloha 3:
   definicia rozumnej interakcie:
     najdlhsia interakcia aspon 30 sekund
     pocet zmien modov na casovy usek 1 zmena za 20 sekund
   Oliver: dopocitat v Python dlzka najdlhsieho modu, pocet zmien na jednotku
-  
