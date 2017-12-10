@@ -232,16 +232,27 @@ function graphWindowFunction() {
     var position = 0;
 
     for (sData of graphData.gData) {
+      var id = graphData.sIDs.shift();
       drawSessionData(graph, sData, position);
       graph.append("text")
-        .text("Session " + graphData.sIDs.shift())
+        .text("Session " + id)
         .attr("x", 600)
         .attr("y", position+(sData.length/2))
         .attr("font-family", "Trebuchet MS")
         .attr("font-size", "15px")
         .attr("stroke", "none")
         .attr("fill", "#c0c0c0")
-        .attr("class", "gData");
+        .attr("class", "gData")
+        .append("svg:title")
+        .text(function(d) {
+          var s = sessions[id];
+          return  "Session length: " +
+                  s.sLength +
+                  " seconds\nLength of the longest interaction: " +
+                  s.sLongestLength +
+                  " seconds\nNumber of mode changes in 10 seconds: " +
+                  s.sSpeed*10;
+        });
       drawDivider(graph, position+sData.length);
       position += sData.length + 15;
     }
