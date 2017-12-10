@@ -41,7 +41,8 @@ d3.csv("overview.csv", function(d){
 // visualization
 
 function visualize() {
-var days = ['2017-05-04','2017-05-05','2017-05-06','2017-05-07','2017-05-08'];
+var days = ['2017-05-08','2017-05-09','2017-05-10','2017-05-11','2017-05-12'
+            ,'2017-05-13','2017-05-14'];
 
 d3.select('#selectedDays').on('click', function(){
   days = [];

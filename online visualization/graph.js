@@ -71,7 +71,7 @@ function updateLength(length) {
 
 function updateSpeed(speed) {
   chosenSpeed = speed/10000;
-  d3.select("#speed").text(speed/1000)
+  d3.select("#speed").text(speed/100)
 }
 
 function updateLongest(length) {
@@ -83,7 +83,7 @@ function graphWindowFunction() {
 
   showLegend();
 
-  var gw = 756;
+  var gw = 720;
   var gh = 320;
 
   var graph = d3.select(".graph");
@@ -258,8 +258,8 @@ function graphWindowFunction() {
                   s.sLength +
                   " seconds\nLength of the longest interaction: " +
                   s.sLongestLength +
-                  " seconds\nNumber of mode changes in 10 seconds: " +
-                  s.sSpeed*10;
+                  " seconds\nNumber of mode changes in 100 seconds: " +
+                  s.sSpeed*100;
         });
       drawDivider(graph, position+sData.length);
       position += sData.length + 15;
@@ -403,7 +403,9 @@ function graphWindowFunction() {
         .attr("y2", position + i)
         .attr("stroke-width", 1)
         .attr("class", "gData")
-        .attr("stroke", modeColors[sessionGraphData[i].mode]);
+        .attr("stroke", modeColors[sessionGraphData[i].mode])
+        .append("svg:title")
+        .text(modes[sessionGraphData[i].mode].name);
       if (sessionGraphData[i].click == 1) {
         graph.append("line") // click
           .attr("x1", 100)
