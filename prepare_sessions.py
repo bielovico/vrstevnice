@@ -48,7 +48,7 @@ for day in days:
             for i in range(len(full_session)):
                 if full_session.iloc[i] != current_mode:
                     mode_changes += 1
-                    if current_length > longest_in_mode[full_session.iloc[i]]:
+                    if current_length > longest_in_mode[current_mode]:
                         longest_in_mode[current_mode] = current_length
                     current_length = 0
                     current_mode = full_session.iloc[i]
