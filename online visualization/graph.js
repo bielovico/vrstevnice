@@ -113,6 +113,10 @@ function graphWindowFunction() {
     showReduced(daydata, graph);
   });
 
+  d3.select("#invert").on("click", function () {
+    showReduced(daydata, graph);
+  });
+
   d3.select("#full").on('click', function () {
     d3.select("div.loading").append("p")
       .attr("class", "loading")
@@ -260,6 +264,7 @@ function graphWindowFunction() {
       drawDivider(graph, position+sData.length);
       position += sData.length + 15;
     }
+    d3.select("#passed").text(graphData.gData.length)
   }
 
 
@@ -279,15 +284,24 @@ function graphWindowFunction() {
 
 
   function prepareGraphData(daydata) {
+    var invert = d3.select("#invert").property("checked");
     var graphData = [];
     var sIDs = [];
     var totalLength = 0;
     for (var i = 0; i < sessions.length; i++) {
       // sem pridat podmienku, ktore session nebrat v uvahu
       // 9 podmienok na mode0 - mode8 ked session[i].modex < pozadovana.modex
-      if (sessions[i].date != chosenDay | sessions[i].sLength < chosenLength
-            | sessions[i].sSpeed > chosenSpeed
-            | sessions[i].sLongestLength < chosenLongest) { // sessions[i].mode0 < 1
+      if (sessions[i].date != chosenDay) {
+        continue;
+      }
+      var condition =
+            sessions[i].sSpeed > chosenSpeed
+            | sessions[i].sLength < chosenLength
+            | sessions[i].sLongestLength < chosenLongest;
+      if (invert) {
+        condition = !condition;
+      }
+      if (condition) {
         continue;
       }
       sIDs.push(sessions[i].sID);
