@@ -14,7 +14,6 @@ body{
 	float: left;
 	position: fixed;
 	left: 800;
-	top: 450;
 }
 
 .legend{
@@ -22,6 +21,7 @@ body{
 	float: left;
 	position: fixed;
 	left: 800;
+	top: 800;
 }
 
 .xlabel{

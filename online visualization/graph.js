@@ -109,6 +109,10 @@ function graphWindowFunction() {
     showReduced(daydata, graph);
   });
 
+  d3.select("#update").on("click", function () {
+    showReduced(daydata, graph);
+  });
+
   d3.select("#full").on('click', function () {
     d3.select("div.loading").append("p")
       .attr("class", "loading")
