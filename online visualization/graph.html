@@ -40,32 +40,33 @@
       </div>
 
       <div class="lengthSelector">
-        <input type="hidden" id="update"/>
         <input type="checkbox" id="invert">Invert?</input>    Number of passed sessions: <span id="passed"></span>
-        <h3>Reduce view to session with less than <span id="speed">10</span> changes in 100 seconds.</h3>
+        <h3>Reduce view to session with less than <span id="speed">5</span> changes in 100 seconds.</h3>
         0.0
-        <input type="range" id="speedSelect" min="0" max="5000" value="1000"
+        <input type="range" id="speedSelect" min="0" max="5000" value="500"
               style="width:500px" oninput="updateSpeed(value);"
               onkeydown="if (event.keyCode == 13)
                             document.getElementById('update').click();">
         50
         <br>
-        <h3>Reduce view to session with longest interaction longer than <span id="longest">10</span> seconds.</h3>
+        <h3>Reduce view to session with longest interaction longer than <span id="longest">20</span> seconds.</h3>
         1
-        <input type="range" id="longestSelect" min="1" max="240" value="10"
+        <input type="range" id="longestSelect" min="1" max="240" value="20"
                 style="width:240px" oninput="updateLongest(value);"
                 onkeydown="if (event.keyCode == 13)
                               document.getElementById('update').click();">
         240
         <br>
-        <h3>Reduce view to sessions with length at least <span id="length">60</span> seconds.</h3>
+        <h3>Reduce view to sessions with length at least <span id="length">30</span> seconds.</h3>
         1
-        <input type="range" id="lengthSelect" min="1" max="240" value="60"
+        <input type="range" id="lengthSelect" min="1" max="240" value="30"
                 style="width:240px" oninput="updateLength(value);"
                 onkeydown="if (event.keyCode == 13)
                               document.getElementById('update').click();">
         240
-        <br><br>
+        <br>
+          <input type="button" id="update" value="Update"/>
+        <br>
         <p>In this window you can control detailed view of data. Colored rectangles represent modes and yellow
           line is number of points that exceeded a limit set in Kinect depth map. Move the slider so you filter out
         all sessions that didn't last long enough.</p>

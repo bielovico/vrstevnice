@@ -1,7 +1,7 @@
 var chosenDay = window.location.search.split('=')[1]
-var chosenLength = 60;
-var chosenSpeed = 0.1;
-var chosenLongest = 10;
+var chosenSpeed = 0.05;
+var chosenLongest = 20;
+var chosenLength = 30;
 
 d3.select("h2").text(chosenDay);
 d3.select("title").text("Interactive graph visualization of " + chosenDay)
@@ -79,6 +79,13 @@ function updateLongest(length) {
   d3.select("#longest").text(length)
 }
 
+// function showLoading() {
+//   console.log("loading");
+//   d3.select("div.loading").append("p")
+//     .attr("class", "loading").text("Please wait. Data is Loading.");
+//   return true;
+// }
+
 function graphWindowFunction() {
 
   showLegend();
@@ -91,23 +98,23 @@ function graphWindowFunction() {
 
   d3.select("p.loading").remove();
 
-  d3.select("#lengthSelect").on("click", function () {
-    d3.select("p.loading").append("p")
-       .attr("class", "loading").text("Please wait. Data is Loading.");
-
-    showReduced(daydata, graph);
-    d3.select("#reduced").attr("disabled", "disabled");
-    d3.select("#full").attr("disabled", null);
-    d3.select("p.loading").remove;
-  });
-
-  d3.select("#speedSelect").on("click", function () {
-    showReduced(daydata, graph);
-  });
-
-  d3.select("#longestSelect").on("click", function () {
-    showReduced(daydata, graph);
-  });
+  // d3.select("#lengthSelect").on("click", function () {
+  //   d3.select("div.loading").append("p")
+  //      .attr("class", "loading").text("Please wait. Data is Loading.");
+  //
+  //   showReduced(daydata, graph);
+  //   d3.select("#reduced").attr("disabled", "disabled");
+  //   d3.select("#full").attr("disabled", null);
+  //   d3.select("p.loading").remove;
+  // });
+  //
+  // d3.select("#speedSelect").on("click", function () {
+  //   showReduced(daydata, graph);
+  // });
+  //
+  // d3.select("#longestSelect").on("click", function () {
+  //   showReduced(daydata, graph);
+  // });
 
   d3.select("#update").on("click", function () {
     showReduced(daydata, graph);
