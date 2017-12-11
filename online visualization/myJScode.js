@@ -56,47 +56,29 @@ var days = ['2017-05-08','2017-05-09','2017-05-10','2017-05-11','2017-05-12'
             ,'2017-05-13','2017-05-14'];
 
 d3.select('#selectedDays').on('click', function(){
-  days = [];
-	var lowerBound = d3.select('#daysFrom').property("value");
-	var upperBound = d3.select('#daysTo').property("value");
+	days = [];
+	var lowerBound = d3.timeParse("%Y-%m-%d")(d3.select('#daysFrom').property("value"));
+	var upperBound = d3.timeParse("%Y-%m-%d")(d3.select('#daysTo').property("value"));
+	console.log(lowerBound);
 	var currentDay = lowerBound;
-	while(currentDay != upperBound){
-		days.push(currentDay);
-		currentDay = addDay(currentDay);
+	while(currentDay.getTime() != upperBound.getTime()){
+
+		days.push(d3.timeFormat("%Y-%m-%d")(currentDay));
+		currentDay = addADay(currentDay);
 
 	}
-	days.push(currentDay);
-	console.log(days);
+	days.push(d3.timeFormat("%Y-%m-%d")(currentDay));
+	//console.log(days);
 	drawGraph();
 });
 
-function addDay(currentDay) {
-    var y = currentDay.substr(0,4),
-        m = currentDay.substr(5,2),
-        d = currentDay.substr(8,2);
 
+function addADay(currentDay){
+	var tomorrow = new Date();
+	tomorrow.setTime( currentDay.getTime() + 86400000 );
 
-    if(m.valueOf()=='04' && d.valueOf()=='30'){
-    	m='05';
-    	d='01';
+	return tomorrow;
 
-    }else if(m.valueOf()=='05' && d.valueOf()=='31'){
-    	m='06';
-    	d='01';
-
-    }else{
-    	d = parseInt(d)+1;
-    }
-    if(m.substr(0,1)!='0'){ m = checkLeadingZero(m);}
-    d = checkLeadingZero(d);
-
-   var nextDay = y+'-'+m+'-'+d;
-
-   return nextDay;
-}
-
-function checkLeadingZero(n) {
-    return (n < 10) ? ("0" + n) : n;
 }
 
 var legend = d3.select("svg.legend").attr("width", 1260).attr("height", 100);

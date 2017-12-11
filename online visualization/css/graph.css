@@ -21,7 +21,7 @@ body{
 	float: left;
 	position: fixed;
 	left: 750px;
-	top: 700px;
+	top: 670px;
 }
 
 .xlabel{
@@ -31,3 +31,10 @@ body{
 h2 {
 	padding: 20px
 }
+
+
+input[type=number]{
+    width: 40px;
+} 
+
+

@@ -42,7 +42,16 @@ d3.csv("sessions_continue.csv", function(d) {
     sLength : +d.session_length,
     sID : +d.id,
     sLongestLength : +d.longest_length,
-    sSpeed : +d.mode_changes_per_second
+    sSpeed : +d.mode_changes_per_second,
+    sMode0 : d.mode0,
+    sMode1 : d.mode1,
+    sMode2 : d.mode2,
+    sMode3 : d.mode3,
+    sMode4 : d.mode4,
+    sMode5 : d.mode5,
+    sMode6 : d.mode6,
+    sMode7 : d.mode7,
+    sMode8 : d.mode8
   };
 
 }, function(d){
@@ -143,90 +152,137 @@ function graphWindowFunction() {
     d3.select("#full").attr("disabled", null);
     d3.select("p.loading").remove();
   });
+  
+  var mode0,mode1,mode2,mode3,mode4,mode5,mode6,mode7,mode8;
+  d3.select('#reload').on('click', function(){
+
+	mode0 = d3.select('#mode0').property("value");
+	mode1 = d3.select('#mode1').property("value");
+	mode2 = d3.select('#mode2').property("value");
+	mode3 = d3.select('#mode3').property("value");
+	mode4 = d3.select('#mode4').property("value");
+	mode5 = d3.select('#mode5').property("value");
+	mode6 = d3.select('#mode6').property("value");
+	mode7 = d3.select('#mode7').property("value");
+	mode8 = d3.select('#mode8').property("value");
+	if (mode0 == "" || parseInt(mode0) < 0){ mode0="0";}
+	if (mode1 == "" || parseInt(mode1) < 0){ mode1="0";}
+	if (mode2 == "" || parseInt(mode2) < 0){ mode2="0";}
+	if (mode3 == "" || parseInt(mode3) < 0){ mode3="0";}
+	if (mode4 == "" || parseInt(mode4) < 0){ mode4="0";}
+	if (mode5 == "" || parseInt(mode5) < 0){ mode5="0";}
+	if (mode6 == "" || parseInt(mode6) < 0){ mode6="0";}
+	if (mode7 == "" || parseInt(mode7) < 0){ mode7="0";}
+	if (mode8 == "" || parseInt(mode8) < 0){ mode8="0";}
+	console.log(mode0);
+	console.log(sessions[154].sMode0);
+	console.log(sessions.length);
+	
+	prepareGraphData(daydata);
+});
 
   function showLegend() {
     var legend = d3.select("svg.legend").attr("width", 300).attr("height", 230);
+    legend.selectAll("input")
+    .data(modes)
+    .enter()
+    .append("foreignObject")
+    .attr("width", 30)
+    .attr("height", 10)
+    .attr("x",0)
+    .attr("y", function (d) {
+    	return d.id*25 + 5;
+    })
+    .append("xhtml:form")
+    .attr("width", 20)
+    .attr("height", 10)
+    .append("input")
+    .attr("type","number")
+    .attr("id",function (d) {
+        return "mode" + d.id;
+    });
+    
     legend.selectAll("rect")
-      .data(modes)
-      .enter()
-      .append("rect")
-        .attr("x", 0)
-        .attr("y", function (d) {
-          return d.id*25 + 5;
-        })
-        .attr("width", 50)
-        .attr("height", 10)
-        .attr("stroke", "none")
-        .attr("fill", function (d) {
-          return d.color;
-        });
-    legend.selectAll("text")
-      .data(modes)
-      .enter()
-      .append("text")
-        .attr("x", 55)
-        .attr("y", function (d) {
-          return d.id*25 + 13;
-        })
-        .text(function (d) {
-          return d.name;
-        })
-        .attr("font-family", "Trebuchet MS")
-        .attr("font-size", "15px")
-        .attr("stroke", "none")
-        .attr("fill", "#c0c0c0");
-    legend.append("rect")
-      .attr("x", 150)
-      .attr("y", 5)
+    .data(modes)
+    .enter()
+    .append("rect")
+      .attr("x", 50)
+      .attr("y", function (d) {
+        return d.id*25 + 5;
+      })
       .attr("width", 50)
       .attr("height", 10)
       .attr("stroke", "none")
-      .attr("fill","#ff545f");
-    legend.append("rect")
-      .attr("x", 150)
-      .attr("y", 15)
-      .attr("width", 50)
-      .attr("height", 10)
+      .attr("fill", function (d) {
+        return d.color;
+      });
+  legend.selectAll("text")
+    .data(modes)
+    .enter()
+    .append("text")
+      .attr("x", 105)
+      .attr("y", function (d) {
+        return d.id*25 + 13;
+      })
+      .text(function (d) {
+        return d.name;
+      })
+      .attr("font-family", "Trebuchet MS")
+      .attr("font-size", "15px")
       .attr("stroke", "none")
-      .attr("fill","#72ff3a");
+      .attr("fill", "#c0c0c0");
+  legend.append("rect")
+    .attr("x", 200)
+    .attr("y", 5)
+    .attr("width", 50)
+    .attr("height", 10)
+    .attr("stroke", "none")
+    .attr("fill","#ff545f");
+  legend.append("rect")
+    .attr("x", 200)
+    .attr("y", 15)
+    .attr("width", 50)
+    .attr("height", 10)
+    .attr("stroke", "none")
+    .attr("fill","#72ff3a");
 
-    legend.append("rect")
-      .attr("x", 150)
-      .attr("y", 35)
-      .attr("width", 50)
-      .attr("height", 10)
-      .attr("stroke", "none")
-      .attr("fill","#ff545f");
-    legend.append("rect")
-      .attr("x", 150)
-      .attr("y", 45)
-      .attr("width", 50)
-      .attr("height", 10)
-      .attr("stroke", "none")
-      .attr("fill","#72ff3a");
-    legend.append("line")
-      .attr("x1", 150)
-      .attr("x2", 200)
-      .attr("y1", 45)
-      .attr("y2", 45)
-      .attr("stroke", "white")
-      .attr("stroke-width", "2px");
-    legend.append("text")
-      .text("click")
-      .attr("x", 210)
-      .attr("y", 48)
-      .attr("font-family", "Trebuchet MS")
-      .attr("font-size", "15px")
-      .attr("stroke", "none")
-      .attr("fill", "#c0c0c0");
-    legend.append("text")
-      .text("automatic")
-      .attr("x", 210)
-      .attr("y", 20)
-      .attr("font-family", "Trebuchet MS")
-      .attr("font-size", "15px")
-      .attr("stroke", "none")
-      .attr("fill", "#c0c0c0");
+  legend.append("rect")
+    .attr("x", 200)
+    .attr("y", 35)
+    .attr("width", 50)
+    .attr("height", 10)
+    .attr("stroke", "none")
+    .attr("fill","#ff545f");
+  legend.append("rect")
+    .attr("x", 200)
+    .attr("y", 45)
+    .attr("width", 50)
+    .attr("height", 10)
+    .attr("stroke", "none")
+    .attr("fill","#72ff3a");
+  legend.append("line")
+    .attr("x1", 200)
+    .attr("x2", 250)
+    .attr("y1", 45)
+    .attr("y2", 45)
+    .attr("stroke", "white")
+    .attr("stroke-width", "2px");
+  legend.append("text")
+    .text("click")
+    .attr("x", 260)
+    .attr("y", 48)
+    .attr("font-family", "Trebuchet MS")
+    .attr("font-size", "15px")
+    .attr("stroke", "none")
+    .attr("fill", "#c0c0c0");
+  legend.append("text")
+    .text("automatic")
+    .attr("x", 260)
+    .attr("y", 20)
+    .attr("font-family", "Trebuchet MS")
+    .attr("font-size", "15px")
+    .attr("stroke", "none")
+    .attr("fill", "#c0c0c0");
   }
 
   // Show reduced graph
@@ -304,7 +360,17 @@ function graphWindowFunction() {
       var condition =
             sessions[i].sSpeed > chosenSpeed
             | sessions[i].sLength < chosenLength
-            | sessions[i].sLongestLength < chosenLongest;
+            | sessions[i].sLongestLength < chosenLongest
+//            | sessions[i].sMode0 < mode0
+//            | sessions[i].sMode1 < mode1
+//            | sessions[i].sMode2 < mode2
+//            | sessions[i].sMode3 < mode3
+//            | sessions[i].sMode4 < mode4
+//            | sessions[i].sMode5 < mode5
+//            | sessions[i].sMode6 < mode6
+//            | sessions[i].sMode7 < mode7
+//            | sessions[i].sMode8 < mode8
+            ;
       if (invert) {
         condition = !condition;
       }
