@@ -26,6 +26,7 @@ var modeColorsHSL = { 0:d3.hsl("black"), 1:d3.hsl("#ff545f"), 2:d3.hsl("#72ff3a"
                       5:d3.hsl("#3dffff"), 6:d3.hsl("#c575ff"),
                       7:d3.hsl("#da627d"), 8:d3.hsl("#ff8f49") };
 
+
 d3.csv("overview.csv", function(d){
   return {
     date : d.date,
@@ -33,7 +34,17 @@ d3.csv("overview.csv", function(d){
     saturation : d.saturation
   };
 }, function (d) {
-  overview = d;
+  overview_all = d;
+});
+
+d3.csv("overview_productive.csv", function(d){
+  return {
+    date : d.date,
+    mode : d.mode,
+    saturation : d.saturation
+  };
+}, function (d) {
+  overview_productive = d;
 
   visualize();
 });
@@ -117,7 +128,12 @@ function drawGraph() {
   oGraph.selectAll("g.hLabel").remove();
   oGraph.selectAll("g.strip").remove();
   oGraph.selectAll("g.brush").remove();
-  console.log("removed");
+
+  if (d3.select("#productive").property("checked")) {
+    overview = overview_productive;
+  } else {
+    overview = overview_all;
+  }
 
   for (var i = 0; i < days.length; i++) {
     d = days[i];
@@ -167,7 +183,6 @@ function drawGraph() {
         }));
 
     // find correct data
-    console.log(op);
     while (overview[op].date != d) {
         op++;
     }
